@@ -98,9 +98,9 @@ trailing:true white:true*/
   /**
     @name XV.Workspace
     @class Contains a set of fittable rows which are laid out
-    using the carousel arranger and fitted to the size of the viewport.<br /> 
+    using the carousel arranger and fitted to the size of the viewport.<br />
     Its components can be extended via {@link XV.ExtensionsMixin}.<br />
-  	Derived from <a href="http://enyojs.com/api/#enyo.FittableRows">enyo.FittableRows</a>. 
+    Derived from <a href="http://enyojs.com/api/#enyo.FittableRows">enyo.FittableRows</a>.
     @extends enyo.FittableRows
     @extends XV.EditorMixin
     @extends XV.ExtensionsMixin
@@ -123,7 +123,8 @@ trailing:true white:true*/
       onModelChange: "",
       onStatusChange: "",
       onTitleChange: "",
-      onHistoryChange: ""
+      onHistoryChange: "",
+      onMenuChange: "",
     },
     handlers: {
       onValueChange: "controlValueChanged"
@@ -353,7 +354,7 @@ trailing:true white:true*/
     @name XV.WorkspaceContainer
     @class Contains the navigation and content panels which wrap around a workspace.<br />
     See also {@link XV.Workspace}.<br />
-    Derived from <a href="http://enyojs.com/api/#enyo.Panels">enyo.Panels</a>. 
+    Derived from <a href="http://enyojs.com/api/#enyo.Panels">enyo.Panels</a>.
     @extends enyo.Panels
    */
   enyo.kind(/** @lends XV.WorkspaceContainer# */{
@@ -371,7 +372,8 @@ trailing:true white:true*/
       onError: "errorNotify",
       onHeaderChange: "headerChanged",
       onStatusChange: "statusChanged",
-      onTitleChange: "titleChanged"
+      onTitleChange: "titleChanged",
+      onMenuChange: "menuChanged"
     },
     components: [
       {kind: "FittableRows", name: "navigationPanel", classes: "left", components: [
@@ -379,22 +381,22 @@ trailing:true white:true*/
           {kind: "onyx.Button", name: "backButton",
             content: "_back".loc(), onclick: "close"}
         ]},
+        {name: "loginInfo", content: "", classes: "xv-navigator-header"},
         {name: "menu", kind: "List", fit: true, touch: true,
            onSetupItem: "setupItem", components: [
           {name: "item", classes: "item enyo-border-box", ontap: "itemTap"}
         ]}
       ]},
       {kind: "FittableRows", name: "contentPanel", components: [
-        {kind: "onyx.MoreToolbar", name: "contentToolbar", 
-					components: [
+        {kind: "onyx.MoreToolbar", name: "contentToolbar", components: [
           {kind: "onyx.Grabber"},
-          {name: "title"},
-					// The MoreToolbar is a FittableColumnsLayout, so this spacer takes up all available space 
+          {name: "title", style: "width: 200px"},
+					// The MoreToolbar is a FittableColumnsLayout, so this spacer takes up all available space
 					{name: "space", fit: true},
 					{kind: "onyx.Button", name: "refreshButton", disabled: true,
             content: "_refresh".loc(), onclick: "requery"},
 					{kind: "onyx.Button", name: "applyButton", disabled: true,
-	            content: "_apply".loc(), onclick: "apply"},
+            content: "_apply".loc(), onclick: "apply"},
           {kind: "onyx.Button", name: "saveAndNewButton", disabled: true,
             content: "_saveAndNew".loc(), onclick: "saveAndNew"},
           {kind: "onyx.Button", name: "saveButton",
@@ -430,6 +432,10 @@ trailing:true white:true*/
         ]}
       ]}
     ],
+    create: function () {
+      this.inherited(arguments);
+      this.setLoginInfo();
+    },
     /**
      @todo Document the apply method.
      */
@@ -478,6 +484,10 @@ trailing:true white:true*/
     errorOk: function () {
       this.$.errorPopup.hide();
     },
+    setLoginInfo: function () {
+      var details = XT.session.details;
+      this.$.loginInfo.setContent(details.username + " · " + details.organization);
+    },
     /**
      @todo Document the headerChanged method.
      */
@@ -509,8 +519,8 @@ trailing:true white:true*/
       }
 
 			// Mobile device view
-			if (enyo.Panels.isScreenNarrow()){
-				this.next(); 
+			if (enyo.Panels.isScreenNarrow()) {
+        this.next();
 			}
 
     },
@@ -571,17 +581,21 @@ trailing:true white:true*/
       this.save();
     },
     /**
-     @todo Document the setupItem method.
+     This is called for each row in the menu List.
+     The menu text is derived from the corresponding panel index.
+     If the panel is not visible, then the menu item is also not visible.
      */
     // menu
     setupItem: function (inSender, inEvent) {
       var box = this.getMenuItems()[inEvent.index],
         defaultTitle =  "_menu".loc() + inEvent.index,
-        title = box.getTitle ? box.getTitle() || defaultTitle :
-          box.title ? box.title || defaultTitle : defaultTitle;
+        title = box.getTitle ? box.getTitle() ||
+         defaultTitle : box.title ? box.title || defaultTitle : defaultTitle,
+        visible = box.showing;
       this.$.item.setContent(title);
       this.$.item.box = box;
       this.$.item.addRemoveClass("onyx-selected", inSender.isSelected(inEvent.index));
+      this.$.item.setShowing(visible);
     },
     /**
       Loads a workspace into the workspace container.
@@ -699,6 +713,15 @@ trailing:true white:true*/
       this.$.title.setContent(title);
       return true;
     },
+    
+    /**
+    This function forces the menu to render and call
+    its setup function for the List.
+     */
+    menuChanged: function (inSender, inEvent) {
+      this.$.menu.render();
+    },
+    
     /**
      @todo Document unsavedCancel method.
      */

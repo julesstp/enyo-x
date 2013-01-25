@@ -13,6 +13,7 @@
 
 XT.stringsFor("en_US", {
 
+	"_actions": "Actions",
   "_advancedSearch": "Advanced Search",
   "_apply": "Apply",
   "_back": "Back",
@@ -33,15 +34,19 @@ XT.stringsFor("en_US", {
   "_editAddress": "Edit Address",
   "_export": "Export",
   "_help": "Help",
+  "_history" : "History",
   "_loading": "Loading",
   "_myAccount": "My Account",
   "_new": "New",
   "_none": "None",
   "_ok": "Ok",
+  "_oldPassword": "Old Password",
   "_open": "Open",
   "_overview": "Overview",
   "_parent": "Parent",
   "_parentOf": "Parent of",
+  "_passwordMismatch": "Passwords don't match",
+  "_passwordNotSix": "Passwords must be at least 6 digits",
   "_postalCode": "Postal Code",
   "_purpose": "Purpose",
   "_refresh": "Refresh",
@@ -59,16 +64,25 @@ XT.stringsFor("en_US", {
   // ********
 
   "_addressShared": "There are multiple records sharing this Address.",
+  "_confirmAction": "Are you sure this is what you want to do?",
   "_canNotUpdate": "Insufficient privileges to edit the record.",
   "_changeAll": "Change All",
   "_changeOne": "Change only this one",
+  "_confirmDelete": "This will permanently delete this record.",
   "_countryInvalid": "Country is invalid.",
   "_invalidAddress": "Invalid Address",
+  "_invalidPassword": "Entry does not match your old password. Please re-enter.",
   "_insufficientViewPrivileges": "You do not have sufficient privileges to view this record.",
+  "_loadingApplicationData": "Loading Application Data",
+  "_loadingExtensions": "Loading Extensions",
+  "_loadingSchema": "Loading Schema",
+  "_loadingSessionData": "Loading Session Data",
   "_localResourceNotAllowed": "Not allowed to load local resource",
   "_logoutConfirmation": "Are you sure you want to log out?",
+  "_newPassword": "New Password",
   "_noDescription": "No Description",
   "_noDocumentFound": "No Document Found.",
+  "_noOldPassword": "Please enter your old password",
   "_unsavedChanges": "You have unsaved changes.",
   "_saveYourWork?": "Do you want to save your work?"
 

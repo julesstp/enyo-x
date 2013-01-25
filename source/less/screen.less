@@ -322,7 +322,7 @@ body {
         width: 150px;
       }
       &.first {
-        width: 320px;
+        width: 300px;
       }
       &.second {
         width: 165px;
@@ -345,7 +345,7 @@ body {
         }
         &.hyperlink {
           color: @bright-orange;
-          background: @slate-blue url(../../assets/item-hilite.png) repeat-x bottom;
+          background: transparent;
         }
       }
       .xv-list-attr {
@@ -363,12 +363,23 @@ body {
           }
           &.hyperlink {
             color: @bright-orange;
-            background: @slate-blue url(../../assets/item-hilite.png) repeat-x bottom;
+            background: transparent;
           }
         }
       }
     }
   }
+}
+
+.xv-list-item > * {
+	display: inline-block;
+	vertical-align: middle;
+}
+
+.xv-list-delete-button {
+  float: right;
+  display: none;
+  margin-top: -4px;
 }
 
 .xv-list-attr {
@@ -449,6 +460,7 @@ body {
   text-transform: uppercase;
   color: @orange;
   padding-left: 20px;
+  border-bottom: 1px solid @near-black;
 }
 
 .xv-workspace-header {
@@ -548,12 +560,17 @@ body {
   min-width: 300px;
   padding: 8px 0 8px 8px;
   margin-right: 5px;
+  &.editor {
+    min-width: 250px;
+    padding: 0;
+		margin: 0;
+  }
   &.in-panel {
 		padding: 0;
 		margin: 0;
 	}
   &.panel {
-      min-width: 330px;
+    min-width: 330px;
   }
 	.onyx-input-decorator > input {
     width: 80%;
@@ -579,6 +596,10 @@ body {
 	/* reset styles that make 'item' look bad if they happen to be there */
 	.border-radius(0);
 	margin: 0;
+}
+
+.xv-groupbox > .in-panel .editor-field {
+  border-right: none;
 }
 
 .xv-groupbox > *:first-child {
@@ -675,14 +696,24 @@ body {
   background: @white;
   display: block;
   margin: 4px;
+  &.short {
+    width: 40%;
+  }  
 }
 
 .xv-addresswidget-combobox-decorator {
   background: @white;
   display: block;
   margin: 4px;
-  width: 70%;
+  width: 80%;
 	padding-right: 0;
+	.xv-combobox-input {
+	  width: 80%;
+	}
+	.xv-combobox {
+    padding: 0;
+    width: 100%;
+  }
 }
 
 .xv-addresswidget-input {
@@ -772,18 +803,27 @@ body {
   }
 }
 
-/* ProjectTaskListRelationsBox */
-.xv-project-tasks-box {
+/* ListRelationsBox */
+.xv-list-relations-box {
   &.panel {
     width: 675px;
-  }
+  }  
+}
+
+.xv-characteristic-relations-box {
+  &.panel {
+    width: 500px;
+  }  
 }
 
 /* Combo Box */
 .xv-combobox {
+  padding: 6px;
+  padding-top: 8px;
+  padding-right: 0;
   height: 24px;
-  width: 100%;
-	display: inline-block;
+  width: 200px;
+  display: inline-block;
 }
 
 .xv-combobox-input {
@@ -791,11 +831,11 @@ body {
   border: 0;
   display: inline-block;
   outline: none;
-  width: 80%; 
+  width: 80%;
 }
 
 .xv-combobox-icon {
-	margin-left: 8px;
+  margin-left: 4px;
   display: inline-block;
 }
 
@@ -832,6 +872,7 @@ body {
   width: 130px;
 	padding: 18px 8px 8px 8px;
   text-align: right;
+  color: black;
 }
 
 .xv-textarea-input {
@@ -840,6 +881,7 @@ body {
   min-height: 100px;
   margin: 6px;
 	border: #ddd 2px solid;
+	color: black;
 }
 
 .xv-documents-picker-label {
@@ -875,10 +917,14 @@ body {
   }
 }
 
-/* This class isn't being used */
 .xv-button-bar {
   .onyx-button {
 		// TODO: center buttons, spacing in between (margin: auto on bar)
 		margin: 0 40px 0 40px;
   }
+}
+
+/* This is for styling the moved items in the more toolbar*/
+.xv-toolbar-moved {
+	width: 220px;
 }
